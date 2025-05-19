@@ -6,10 +6,15 @@ interface ApiKeyContextProps {
   setBraveApiKey: (key: string) => void;
 }
 
+interface ApiKeyProviderProps {
+  children: ReactNode;
+  defaultBraveApiKey?: string;
+}
+
 const ApiKeyContext = createContext<ApiKeyContextProps | undefined>(undefined);
 
-export const ApiKeyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [braveApiKey, setBraveApiKey] = useState<string>('');
+export const ApiKeyProvider: React.FC<ApiKeyProviderProps> = ({ children, defaultBraveApiKey = '' }) => {
+  const [braveApiKey, setBraveApiKey] = useState<string>(defaultBraveApiKey);
 
   return (
     <ApiKeyContext.Provider value={{ braveApiKey, setBraveApiKey }}>
