@@ -3,10 +3,15 @@ import { http, HttpResponse } from 'msw';
 import { setupWorker } from 'msw/browser';
 import { setupServer } from 'msw/node';
 
+// Define interface for the request body
+interface GenerateRequest {
+  prompt: string;
+}
+
 // This function returns a handler for the generateWithLocalLLM endpoint
 const generateLLMHandler = http.post('/api/generate', async ({ request }) => {
   try {
-    const { prompt } = await request.json();
+    const { prompt } = await request.json() as GenerateRequest;
     
     // This is where we would call the python subprocess in a real backend
     // For the frontend mock, we'll just return a simulated response
