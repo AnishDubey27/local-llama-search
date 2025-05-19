@@ -1,7 +1,6 @@
 
 import { http, HttpResponse } from 'msw';
 import { setupWorker } from 'msw/browser';
-import { setupServer } from 'msw/node';
 
 // Define interface for the request body
 interface GenerateRequest {
@@ -31,15 +30,9 @@ const generateLLMHandler = http.post('/api/generate', async ({ request }) => {
 // Create handler array
 const handlers = [generateLLMHandler];
 
-// Setup MSW
+// Setup MSW for browser only
 export function createServer() {
-  if (typeof window === 'undefined') {
-    const server = setupServer(...handlers);
-    server.listen();
-    return server;
-  } else {
-    const worker = setupWorker(...handlers);
-    worker.start({ onUnhandledRequest: 'bypass' });
-    return worker;
-  }
+  const worker = setupWorker(...handlers);
+  worker.start({ onUnhandledRequest: 'bypass' });
+  return worker;
 }
