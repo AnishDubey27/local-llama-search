@@ -8,8 +8,10 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import { createServer } from "./server";
 
-// Create mock server for API endpoints
-createServer();
+// Only create mock server in browser environment
+if (typeof window !== 'undefined') {
+  createServer();
+}
 
 const queryClient = new QueryClient();
 
